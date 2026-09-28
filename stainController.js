@@ -172,3 +172,27 @@ module.exports = function(app, pool, upload) {
     });
 };
 
+  // مسار رفع الفيديو الجديد للمنتجات أو المنشورات التوعوية
+  app.post('/api/v1/videos/upload', upload.single('video'), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ status: 'error', message: 'الرجاء إرفاق ملف فيديو صالح' });
+      }
+
+      // رابط الوصول للملف محلياً
+      const videoUrl = `/public/uploads/${req.file.filename}`;
+
+      return res.status(200).json({
+        status: 'success',
+        message: 'تم رفع الفيديو بنجاح',
+        data: {
+          video_url: videoUrl,
+          file_name: req.file.filename
+        }
+      });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ status: 'error', message: 'حدث خطأ أثناء رفع الفيديو' });
+    }
+  });
+
