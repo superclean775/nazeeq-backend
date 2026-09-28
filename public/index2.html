@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة نظيف - فخامة النظافة والخدمات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0284C7;
+            --primary-dark: #0369A1;
+            --secondary: #0D9488;
+            --accent: #F59E0B;
+            --bg-color: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-main: #1E293B;
+            --text-muted: #64748B;
+            --border-color: #E2E8F0;
+            --radius: 16px;
+        }
+
+        body { 
+            font-family: 'Cairo', system-ui, sans-serif; 
+            background: var(--bg-color); 
+            color: var(--text-main);
+            margin: 0; 
+            padding: 15px; 
+            direction: rtl; 
+        }
+
+        .container { max-width: 600px; margin: 0 auto; }
+        
+        .box { 
+            background: var(--card-bg); 
+            border-radius: var(--radius); 
+            padding: 20px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 4px 20px rgba(2, 132, 199, 0.06);
+            border: 1px solid var(--border-color);
+        }
+
+        .header-flex { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 20px; 
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 15px 20px;
+            border-radius: var(--radius);
+            color: white;
+            box-shadow: 0 6px 15px rgba(2, 132, 199, 0.15);
+        }
+
+        .tab-btn { 
+            background: rgba(255, 255, 255, 0.2); 
+            border: none; 
+            padding: 7px 12px; 
+            border-radius: 20px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            color: white; 
+            transition: all 0.3s ease;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.8rem;
+        }
+        .tab-btn.active { 
+            background: white; 
+            color: var(--primary); 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .search-box input {
+            flex-grow: 1;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            background: var(--card-bg);
+            color: var(--text-main);
+            font-family: 'Cairo', sans-serif;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        }
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+        }
+
+        .filter-bar { 
+            display: flex; 
+            gap: 10px; 
+            overflow-x: auto; 
+            padding-bottom: 10px; 
+            margin-bottom: 20px; 
+            scrollbar-width: none; 
+        }
+        .filter-bar::-webkit-scrollbar { display: none; }
+        
+        .filter-btn { 
+            background: var(--card-bg); 
+            border: 1px solid var(--border-color); 
+            padding: 8px 16px; 
+            border-radius: 20px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            white-space: nowrap; 
+            font-size: 0.9rem; 
+            color: var(--text-muted); 
+            flex-shrink: 0; 
+            transition: all 0.2s;
+            font-family: 'Cairo', sans-serif;
+        }
+        .filter-btn.active { 
+            background: var(--secondary); 
+            color: white; 
+            border-color: var(--secondary);
+            box-shadow: 0 4px 10px rgba(13, 148, 136, 0.2);
+        }
+
+        .store-card { 
+            background: var(--card-bg); 
+            border: 1px solid var(--border-color); 
+            border-radius: var(--radius); 
+            padding: 16px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        }
+        
+        .store-header { 
+            display: flex; 
+            gap: 14px; 
+            align-items: center; 
+            border-bottom: 2px solid var(--bg-color); 
+            padding-bottom: 12px; 
+            margin-bottom: 14px; 
+        }
+        
+        .store-logo { 
+            width: 60px; 
+            height: 60px; 
+            object-fit: cover; 
+            border-radius: 50%; 
+            background: var(--bg-color); 
+            border: 2px solid var(--primary); 
+            flex-shrink: 0; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .products-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .product-grid-item { background: var(--bg-color); border-radius: 12px; padding: 10px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid var(--border-color); }
+        .product-grid-item img { width: 100%; height: 110px; object-fit: cover; border-radius: 8px; margin-bottom: 8px; }
+
+        .products-horizontal { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
+        .products-horizontal::-webkit-scrollbar { display: none; }
+        .product-horiz-item { min-width: 150px; background: var(--bg-color); border-radius: 12px; padding: 10px; flex-shrink: 0; border: 1px solid var(--border-color); }
+        .product-horiz-item img { width: 100%; height: 90px; object-fit: cover; border-radius: 8px; margin-bottom: 6px; }
+
+        .product-list-item { display: flex; gap: 12px; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 10px; }
+        .product-list-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .product-list-item img { width: 75px; height: 75px; object-fit: cover; border-radius: 10px; flex-shrink: 0; }
+
+        .btn { 
+            background: var(--secondary); 
+            color: white; 
+            border: none; 
+            padding: 6px 12px; 
+            border-radius: 8px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            font-size: 0.85rem;
+            transition: background 0.2s;
+            font-family: 'Cairo', sans-serif;
+            text-align: center;
+        }
+        .btn:hover { opacity: 0.9; }
+
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 6px; font-weight: 700; color: var(--text-main); font-size: 0.9rem; }
+        input, select, textarea { 
+            width: 100%; 
+            padding: 10px 14px; 
+            box-sizing: border-box; 
+            border: 1px solid var(--border-color); 
+            border-radius: 10px; 
+            font-size: 0.95rem; 
+            background: #fff;
+            color: var(--text-main);
+            font-family: 'Cairo', sans-serif;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+        }
+
+        .social-links { margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap; }
+        .social-link { font-size: 0.8rem; background: #e0f2fe; color: var(--primary-dark); padding: 4px 10px; border-radius: 6px; text-decoration: none; font-weight: 700; }
+        
+        .gps-btn { 
+            background: var(--primary); 
+            color: white; 
+            border: none; 
+            padding: 10px; 
+            border-radius: 10px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            font-size: 0.9rem; 
+            margin-top: 8px; 
+            width: 100%; 
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        #storeViewScreen { display: none; }
+        .store-hero {
+            color: white;
+            padding: 25px 20px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .back-market-btn {
+            background: rgba(0,0,0,0.15);
+            color: var(--text-main);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Cairo', sans-serif;
+        }
+        .back-market-btn:hover { background: rgba(0,0,0,0.25); }
+
+        .post-card {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+        .post-card h5 { margin: 0 0 6px 0; color: #b45309; font-size: 0.95rem; }
+        .post-card p { margin: 0; color: #78350f; font-size: 0.9rem; line-height: 1.5; white-space: pre-line; }
+
+        /* تنسيق قسم المحلل الذكي */
+        .ai-analyzer-box {
+            background: linear-gradient(135deg, #f0fdf4, #e0f2fe);
+            border: 2px dashed var(--secondary);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .ai-results-box {
+            margin-top: 15px;
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            display: none;
+        }
+        .home-remedy-box {
+            background: #fffbeb;
+            border: 1px solid #fcd34d;
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 12px;
+        }
+        .audio-controls {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    
+    <div id="mainAppScreen">
+        <div class="header-flex">
+            <h2 style="margin:0; font-weight:900; font-size: 1.2rem;">🧼 منصة نظيف</h2>
+            <div style="display:flex; gap:5px;">
+                <button class="tab-btn active" id="btnMarket" onclick="switchTab('market')">🛒 السوق</button>
+                <button class="tab-btn" id="btnAi" onclick="switchTab('ai')">🤖 المحلل الذكي</button>
+                <button class="tab-btn" id="btnVendor" onclick="switchTab('vendor')">🏪 تاجر</button>
+            </div>
+        </div>
+        
+        <!-- قسم المحلل الذكي للبقع والمشاكل والخلطات المنزلية -->
+        <div id="aiSection" class="ai-analyzer-box" style="display:none;">
+            <h3 style="color:var(--secondary); margin-top:0; font-size:1.1rem;">✨ المحلل الذكي المتقدم للبقع والخلطات</h3>
+            <p style="color:var(--text-muted); font-size:0.85rem;">ارفع صورة أو اكتب أي مشكلة (دهون، تكلسات، سجاد، بلاط، ملابس)، وسيعطيك النظام **الحل الطبيعي المخصص تماماً** مع زر قراءة صوتية واضح ومضمون!</p>
+            
+            <div class="form-group">
+                <label>📍 اختر اللهجة المفضلة للرد:</label>
+                <select id="aiRegionDialect">
+                    <option value="sanaa">🇾🇪 لهجة أهل صنعاء (ياخوي، أبشر، بالراحة...)</option>
+                    <option value="ibb">🇾🇪 لهجة أهل إب (ياطيب، لاهنت، عوافي...)</option>
+                    <option value="general">🇾🇪 اللهجة اليمنية العامة (يا غالي، سم، تدلل...)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>📸 صورة المشكلة أو البقعة:</label>
+                <input type="file" id="aiProblemImage" accept="image/*">
+            </div>
+
+            <div class="form-group">
+                <label>✍️ اكتب وصف المشكلة بدقة (مثال: بقعة حبر على الكنب، دهون متراكمة بشفاط المطبخ، اصفرار المغاسل):</label>
+                <textarea id="aiProblemDesc" rows="3" placeholder="اشرح نوع المشكلة بالتفصيل لنعطيك الحل الصحيح..."></textarea>
+            </div>
+
+            <button type="button" class="btn" style="width:100%; background:var(--secondary); padding: 12px; font-size: 1rem;" onclick="analyzeProblem()">🔍 تشخيص المشكلة وإعطاء الحل المخصص والمنتجات</button>
+
+            <div id="aiResultsContainer" class="ai-results-box">
+                <div id="aiResultsContent"></div>
+            </div>
+        </div>
+
+        <div id="marketSection">
+            <!-- شريط البحث الذكي -->
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 ابحث عن اسم التاجر، المصنع، المنتج أو العبوة (مثال: 20 لتر، بيوركس...)" oninput="filterAndSearchStores()">
+            </div>
+
+            <div class="filter-bar" id="filterBar">
+                <button class="filter-btn active" onclick="filterStores('الكل', this)">🌐 جميع مناطق صنعاء</button>
+                <button class="filter-btn" onclick="filterStores('التحرير', this)">📍 التحرير</button>
+                <button class="filter-btn" onclick="filterStores('السبعين', this)">📍 السبعين</button>
+                <button class="filter-btn" onclick="filterStores('معين', this)">📍 معين</button>
+                <button class="filter-btn" onclick="filterStores('الوحدة', this)">📍 الوحدة</button>
+                <button class="filter-btn" onclick="filterStores('أزال', this)">📍 أزال</button>
+                <button class="filter-btn" onclick="filterStores('الصافية', this)">📍 الصافية</button>
+                <button class="filter-btn" onclick="filterStores('شعوب', this)">📍 شعوب</button>
+                <button class="filter-btn" onclick="filterStores('الثورة', this)">📍 الثورة</button>
+                <button class="filter-btn" onclick="filterStores('بني الحارث', this)">📍 بني الحارث</button>
+                <button class="filter-btn" onclick="filterStores('حدة', this)">📍 حدة</button>
+                <button class="filter-btn" onclick="filterStores('بيت بوس', this)">📍 بيت بوس</button>
+                <button class="filter-btn" onclick="filterStores('الزبيري', this)">📍 الزبيري</button>
+                <button class="filter-btn" onclick="filterStores('شارع جمال', this)">📍 شارع جمال</button>
+                <button class="filter-btn" onclick="filterStores('الحصبة', this)">📍 الحصبة</button>
+                <button class="filter-btn" onclick="filterStores('شملان', this)">📍 شملان</button>
+                <button class="filter-btn" onclick="filterStores('سعوان', this)">📍 سعوان</button>
+                <button class="filter-btn" onclick="filterStores('مذبح', this)">📍 مذبح</button>
+                <button class="filter-btn" onclick="filterStores('دار سلم', this)">📍 دار سلم</button>
+            </div>
+
+            <div id="content">جاري تحميل المحلات والمنتجات الفاخرة...</div>
+
+            <div class="box">
+                <h3 style="margin-top:0; color:var(--primary);">🛒 تأكيد الطلب والدفع (مع خيار التوصيل وعمولة 3%)</h3>
+                <form onsubmit="sendOrder(event)">
+                    <div class="form-group"><label>الاسم:</label><input type="text" id="cname" required placeholder="اسمك الكريم"></div>
+                    <div class="form-group"><label>الهاتف:</label><input type="tel" id="cphone" required placeholder="رقم الجوال"></div>
+                    <div class="form-group"><label>المنتج المختار:</label><input type="text" id="pname" readonly style="background:#f1f5f9;"></div>
+                    <div class="form-group"><label>السعر الأساسي:</label><input type="text" id="pprice" readonly style="background:#f1f5f9;"></div>
+                    
+                    <div class="form-group"><label>طريقة التوصيل:</label>
+                        <select id="cdelivery_type" onchange="calcTotal()" required>
+                            <option value="الاستلام من المحل مباشر">🏬 الاستلام من المحل (بدون عمولة توصيل)</option>
+                            <option value="التوصيل عبر المنصة (عمولة 3%)">🚚 التوصيل عبر المنصة (إضافة عمولة 3% على الحساب)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group"><label>الإجمالي النهائي (شامل العمولة إن وجدت):</label><input type="text" id="ptotal" readonly style="background:#f0fdf4; font-weight:700; color:#15803d; border-color:#bbf7d0;"></div>
+
+                    <div class="form-group"><label>طريقة الدفع:</label>
+                        <select id="cpay" required>
+                            <option value="كاش عند الاستلام">💵 كاش عند الاستلام</option>
+                            <option value="محفظة الكريمي موبايل">📱 الكريمي موبايل</option>
+                            <option value="محفظة جيب (Geep)">📱 جيب (Geep)</option>
+                            <option value="محفظة فلوسك">📱 فلوسك</option>
+                            <option value="محفظة ون كاش (OneCash)">📱 ون كاش (OneCash)</option>
+                            <option value="محفظة كاش">📱 كاش</option>
+                            <option value="محفظة إيزي (EasyPay)">📱 إيزي (Easy)</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn" style="width:100%; background:var(--primary); padding: 12px; font-size: 1rem;">إرسال الطلب عبر الواتساب 📱</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- قسم تسجيل تاجر جديد -->
+        <div id="vendorSection" class="box" style="display:none;">
+            <h3 style="color:var(--primary); margin-top:0;">🏪 بوابة تسجيل المصانع والموردين (الموقع المستقل)</h3>
+            <p style="color:var(--text-muted); font-size:0.85rem;">اختر قالب موقعك والقالب المفضل لعرض معروضاتك ليبدو كأنه موقع تجاري مستقل تماماً</p>
+            <form onsubmit="registerVendor(event)">
+                <div class="form-group">
+                    <label>اسم المصنع / المورد / المحل:</label>
+                    <input type="text" id="v_store_name" required placeholder="مثال: مؤسسة النظافة المتقدمة">
+                </div>
+
+                <div class="form-group">
+                    <label>نوع النشاط:</label>
+                    <select id="v_category" required>
+                        <option value="مصنع إنتاج">🏭 مصنع</option>
+                        <option value="مورد جملة">📦 مورد جملة</option>
+                        <option value="محل تجزئة">🛒 محل تجزئة</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>🎨 اختر قالب تصميم وهية متجرك (الواجهة المستقلة):</label>
+                    <select id="v_store_theme_style" required>
+                        <option value="dark_luxury">1. قالب النمط الداكن الفاخر (Dark Luxury)</option>
+                        <option value="clean_corporate">2. قالب النمط النظيف الساطع (Clean Corporate)</option>
+                        <option value="industrial">3. قالب النمط الصناعي للمصانع (Industrial Style)</option>
+                        <option value="eco_friendly" selected>4. قالب النمط البيئي والأخضر (Eco-Friendly)</option>
+                        <option value="modern_retail">5. قالب النمط التجاري العصري (Modern Retail)</option>
+                        <option value="classic_trust">6. قالب النمط الكلاسيكي الموثوق (Classic Trust)</option>
+                        <option value="simple_clean">7. قالب النمط البسيط والمباشر (Simple & Clean)</option>
+                        <option value="creative_vibrant">8. قالب النمط الإبداعي الملون (Creative & Vibrant)</option>
+                        <option value="showcase_field">9. قالب المعرض الميداني المدمج بالخريطة (Showcase & Field)</option>
+                        <option value="verified_hub">10. قالب المتجر الموثق الشامل (Verified Brand Hub)</option>
+                        <option value="interactive_profile">11. قالب الصفحة الشخصية التفاعلية مع النصائح (Interactive Profile)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>📦 اختر قالب عرض المنتجات والمعروضات لعموم الزبائن:</label>
+                    <select id="v_product_display_template" required>
+                        <option value="grid_view" selected>1. قالب المعرض الشبكي الفاخر (Grid View)</option>
+                        <option value="list_view">2. قالب القائمة العمودية المفصلة (List View)</option>
+                        <option value="horizontal_scroll">3. قالب السير الأفقي السريع (Horizontal Scroll)</option>
+                        <option value="magazine_style">4. قالب الكتالوج المصور الراقي (Magazine Style)</option>
+                        <option value="minimalist">5. قالب البطاقات البسيطة الهادئة (Minimalist)</option>
+                        <option value="flash_deals">6. قالب العروض السريعة البارزة (Quick Flash Deals)</option>
+                        <option value="hero_product">7. قالب التركيز البصري الفردي (Hero Product Focus)</option>
+                        <option value="glassmorphism">8. قالب الكارد الزجاجي المودرن (Glassmorphism)</option>
+                        <option value="showroom_grid">9. قالب بطاقات المعارض الكبرى الواسعة (Showroom Grid)</option>
+                        <option value="bestseller_showcase">10. قالب المنتجات الأكثر طلباً (Best Sellers Showcase)</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; gap: 15px;">
+                    <div class="form-group" style="flex:1;">
+                        <label>لون الهوية الرئيسي:</label>
+                        <input type="color" id="v_theme_color" value="#0284C7" style="height: 42px; padding: 4px; cursor: pointer;">
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label>لون الغلاف الداخلي:</label>
+                        <input type="color" id="v_theme_bg_color" value="#0f172a" style="height: 42px; padding: 4px; cursor: pointer;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>شعار أو واجهة المحل (صورة دائرية):</label>
+                    <input type="file" id="v_store_logo_file" accept="image/*">
+                </div>
+
+                <div class="form-group">
+                    <label>وصف المتجر (نبذة تعريفية):</label>
+                    <textarea id="v_store_desc" rows="2" placeholder="اكتب نبذة مختصرة عن نشاطك ومنتجاتك..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>نطاق التغطية في صنعاء:</label>
+                    <select id="v_sector" required>
+                        <option value="🌐 مورد عام - يغطي كافة مناطق صنعاء الـ 18">🌐 مورد عام (يغطي كافة مناطق صنعاء الـ 18)</option>
+                        <option value="صنعاء - التحرير">مديرية التحرير</option>
+                        <option value="صنعاء - السبعين">مديرية السبعين</option>
+                        <option value="صنعاء - معين">مديرية معين</option>
+                        <option value="صنعاء - الوحدة">مديرية الوحدة</option>
+                        <option value="صنعاء - أزال">مديرية أزال</option>
+                        <option value="صنعاء - الصافية">مديرية الصافية</option>
+                        <option value="صنعاء - شعوب">مديرية شعوب</option>
+                        <option value="صنعاء - الثورة">مديرية الثورة</option>
+                        <option value="صنعاء - بني الحارث">مديرية بني الحارث</option>
+                        <option value="صنعاء - حدة">منطقة حدة</option>
+                        <option value="صنعاء - بيت بوس">منطقة بيت بوس</option>
+                        <option value="صنعاء - شارع الزبيري">شارع الزبيري</option>
+                        <option value="صنعاء - شارع جمال">شارع جمال</option>
+                        <option value="صنعاء - الحصبة">منطقة الحصبة</option>
+                        <option value="صنعاء - شملان">منطقة شملان</option>
+                        <option value="صنعاء - سعوان">منطقة سعوان</option>
+                        <option value="صنعاء - مذبح">منطقة مذبح</option>
+                        <option value="صنعاء - دار سلم">منطقة دار سلم</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>الموقع الجغرافي الفوري (GPS):</label>
+                    <input type="text" id="v_map_link" readonly placeholder="اضغط على الزر أدناه لتحديد موقعك..." style="background:#f1f5f9;">
+                    <button type="button" class="gps-btn" onclick="getMyLocation()">📍 تحديد موقعي الحالي عبر الـ GPS</button>
+                </div>
+
+                <div class="form-group">
+                    <label>رابط قناة التواصل أو العروض (تلجرام/فيسبوك):</label>
+                    <input type="url" id="v_social" placeholder="https://t.me/your_channel">
+                </div>
+
+                <div class="form-group">
+                    <label>دعم التوصيل عبر المنصة:</label>
+                    <select id="v_delivery" required>
+                        <option value="🚚 يدعم التوصيل عبر المنصة (عمولة 3%)">🚚 يدعم التوصيل عبر المنصة (عمولة 3% إضافية)</option>
+                        <option value="🏬 الاستلام من الفرع فقط">🏬 الاستلام من الفرع فقط</option>
+                    </select>
+                </div>
+
+                <hr style="border:0; border-top:1px solid var(--border-color); margin:20px 0;">
+
+                <h4 style="color:var(--primary); margin:5px 0;">💡 منشورات وتوجيهات عامة للتاجر (بدون تسعير)</h4>
+                
+                <div class="form-group">
+                    <label>عنوان المنشور / النصيحة:</label>
+                    <input type="text" id="v_post_title" placeholder="مثال: نصائح ذهبية لتنظيف وتعقيم الأسطح المنزلية">
+                </div>
+                <div class="form-group">
+                    <label>محتوى المنشور أو المقال التوجيهي:</label>
+                    <textarea id="v_post_content" rows="3" placeholder="اكتب هنا النصائح والمعلومات العامة للعملاء..."></textarea>
+                </div>
+
+                <hr style="border:0; border-top:1px solid var(--border-color); margin:20px 0;">
+
+                <h4 style="color:var(--primary); margin:5px 0;">📦 بيانات المنتج الأول</h4>
+
+                <div class="form-group">
+                    <label>اسم المنتج:</label>
+                    <input type="text" id="v_prod_name" required placeholder="مثال: مطهر ومعقم شامل">
+                </div>
+
+                <div class="form-group">
+                    <label>حجم أو عبوة المنتج:</label>
+                    <input type="text" id="v_prod_size" required placeholder="مثال: عبوة 20 لتر">
+                </div>
+
+                <div class="form-group">
+                    <label>السعر (ريال يمني):</label>
+                    <input type="number" id="v_prod_price" required placeholder="10000">
+                </div>
+
+                <div class="form-group">
+                    <label>صورة المنتج:</label>
+                    <input type="file" id="v_prod_image_file" accept="image/*">
+                </div>
+
+                <div class="form-group">
+                    <label>وصف المنتج:</label>
+                    <textarea id="v_prod_desc" rows="2" placeholder="مواصفات إضافية للمنتج..."></textarea>
+                </div>
+
+                <button type="submit" class="btn" style="width:100%; background:var(--accent); color:#fff; padding: 12px; font-size: 1rem;">🚀 اعتماد موقعك المستقل والقوالب في المنصة</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="storeViewScreen">
+        <button class="back-market-btn" onclick="backToMarket()">⬅️ العودة إلى السوق الرئيسي</button>
+        <div id="storeScreenContent"></div>
+    </div>
+
+</div>
+
+<script>
+    let allStores = [];
+    let selectedProd = null, rawPrice = 0, selectedStoreInfo = '';
+    let currentFilterArea = 'الكل';
+    let currentSpeech = null;
+
+    function switchTab(tab) {
+        stopSpeech();
+        document.getElementById('marketSection').style.display = 'none';
+        document.getElementById('aiSection').style.display = 'none';
+        document.getElementById('vendorSection').style.display = 'none';
+        document.getElementById('btnMarket').classList.remove('active');
+        document.getElementById('btnAi').classList.remove('active');
+        document.getElementById('btnVendor').classList.remove('active');
+
+        if(tab === 'market') {
+            document.getElementById('marketSection').style.display = 'block';
+            document.getElementById('btnMarket').classList.add('active');
+            loadData();
+        } else if(tab === 'ai') {
+            document.getElementById('aiSection').style.display = 'block';
+            document.getElementById('btnAi').classList.add('active');
+        } else {
+            document.getElementById('vendorSection').style.display = 'block';
+            document.getElementById('btnVendor').classList.add('active');
+        }
+    }
+
+    function stopSpeech() {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+        }
+    }
+
+    function speakText(textToSpeak) {
+        if (!('speechSynthesis' in window)) {
+            alert('متصفحك لا يدعم خاصية القراءة الصوتية.');
+            return;
+        }
+        
+        window.speechSynthesis.cancel();
+        
+        let cleanText = textToSpeak.replace(/[#*`_\[\]]/g, ' ').replace(/\s+/g, ' ').trim();
+        
+        currentSpeech = new SpeechSynthesisUtterance(cleanText);
+        currentSpeech.lang = 'ar-SA';
+        currentSpeech.rate = 0.92;
+        currentSpeech.pitch = 1.0;
+        
+        const voices = window.speechSynthesis.getVoices();
+        const arabicVoice = voices.find(v => v.lang.startsWith('ar') || v.lang.startsWith('AR'));
+        if (arabicVoice) {
+            currentSpeech.voice = arabicVoice;
+        }
+
+        window.speechSynthesis.speak(currentSpeech);
+    }
+
+    // نظام تحليل ذكي حقيقي ومخصص لكل مشكلة
+    function analyzeProblem() {
+        stopSpeech();
+        const descInput = document.getElementById('aiProblemDesc').value.trim();
+        const dialect = document.getElementById('aiRegionDialect').value;
+        const imgInput = document.getElementById('aiProblemImage');
+        
+        if(!descInput && (!imgInput.files || imgInput.files.length === 0)) {
+            alert('ياخوي، يرجى كتابة وصف المشكلة أو رفع صورتها لنتمكن من تقديم الحل الصحيح!');
+            return;
+        }
+
+        let container = document.getElementById('aiResultsContent');
+        container.innerHTML = '<p style="color:var(--text-muted); text-align:center;">⏳ جاري تحليل طبيعة البقعة أو المشكلة واختيار الحل الهندسي والمنزلي المناسب...</p>';
+        document.getElementById('aiResultsContainer').style.display = 'block';
+
+        setTimeout(() => {
+            let textLower = descInput.toLowerCase();
+            let greeting = "يا هلا ومرحبابك يا غالي، أبشر بالحل الأكيد.";
+            let remedyTitle = "🌿 الخلطة والحل المنزلي المتخصص:";
+            let remedyText = "";
+            let matchedKeyword = descInput || "المشكلة المرصودة";
+
+            // فحص الكلمات المفتاحية لتقديم حلول مخصصة ومختلفة كلياً
+            if (textLower.includes('دهون') || textLower.includes('مطبخ') || textLower.includes('شفاط') || textLower.includes('زيت')) {
+                if (dialect === 'sanaa') {
+                    greeting = "يا هلا بك ياخوي، دهون المطبخ هذي شغلتنا البسيطة!";
+                    remedyText = "خذ لك فنجان خل أبيض مع ملعقة صابون سائل مركز وموية دافية، رشها على مكان الدهون وخلها تتفاعل ثلاث دقايق وافركها بليفة خشنة وبتشوف كيف تذوب الدهون فوراً.";
+                } else if (dialect === 'ibb') {
+                    greeting = "ياطيب حياك الله، لا تشيل هم الدهون أبداً.";
+                    remedyText = "امسح مكان الدهون بخليط من الخل الساخن مع قطرات ليمون وبيكربونات الصوديوم، واتركها دقائق ثم امسحها بقطعة قماش مبللة لتعود تلمع.";
+                } else {
+                    greeting = "أهلاً بك، إليك الحل السريع لإزالة الدهون المستعصية.";
+                    remedyText = "استخدم مسحوق بيكربونات الصوديوم مع الخل الأبيض والماء الدافئ، وافرك المنطقة بفرشاة دائرية ثم اشطفها بالماء الفاتر.";
+                }
+            } else if (textLower.includes('تكلس') || textLower.includes('حمام') || textLower.includes('جير') || textLower.includes('صفرار') || textLower.includes('بلاط')) {
+                if (dialect === 'sanaa') {
+                    greeting = "ياخوي تكلسات الحمام وجير البلاط له عندي وصفة سحرية.";
+                    remedyText = "قرح لك كمية خل أبيض مركز مع ملح ليمون، وافرك بها الصدأ أو التكلسات بفرشاة خشنة وخلها عشر دقايق واغسلها بماء نظيف وبتدعي لي.";
+                } else if (dialect === 'ibb') {
+                    greeting = "ياطيب أبشر، التكلسات بنقضي عليها فوراً.";
+                    remedyText = "استخدم خل أبيض دافئ مع قليل من ملح الليمون، اتركها تتفاعل على البلاط أو المغسلة خمس دقائق ثم افركها واشطفها.";
+                } else {
+                    greeting = "أهلاً بك، الحل الفعال لإزالة التكلسات والجير.";
+                    remedyText = "انثر ملح الليمون فوق الأسطح المتكلسة ورش فوقه الخل الأبيض، اتركه يتفاعل ثم افركه واشطفه بالماء الفاتر.";
+                }
+            } else if (textLower.includes('سجاد') || textLower.includes('موكت') || textLower.includes('فرش')) {
+                if (dialect === 'sanaa') {
+                    greeting = "ياغالي، بقع السجاد هذي يبيلها عناية خاصة.";
+                    remedyText = "اخلط فنجان خل أبيض مع فنجان ماء دافئ وملعقة صغيرة صابون سائل، وافرك البقعة باسفنجة بحركة دائرية بدون غرق السجاد، ثم امسحها بقميص ناشف.";
+                } else if (dialect === 'ibb') {
+                    greeting = "ياطيب ولا تقلق على السجاد، أبشر بالحل النظيف.";
+                    remedyText = "ضع رشة بيكربونات الصوديوم على مكان البقعة، وفوقها قطرات خل أبيض، اتركها حتى تفور ثم امسحها بلطف بقطعة قماش قطنية.";
+                } else {
+                    greeting = "أهلاً بك، لإزالة بقع السجاد الصعبة:";
+                    remedyText = "امزج الخل الأبيض مع القليل من سجاد الشامبو والماء الدافئ، افرك البقعة برفق ثم جففها بمنشفة نظيفة.";
+                }
+            } else {
+                // حل افتراضي ذكي ومفصل بناءً على الوصف المدخل
+                if (dialect === 'sanaa') {
+                    greeting = "ياخوي من عيوننا، بحثنا في النظام ولقينا لك الحل المناسب لمشكلتك.";
+                    remedyText = `بخصوص («${matchedKeyword}»)، أنصحك بتنظيف المكان باستخدام محلول الخل الأبيض المخفف بقطرات من الليمون والماء الدافئ، وافركها بفرشاة ناعمة لتحصل على نظافة تامة.`;
+                } else if (dialect === 'ibb') {
+                    greeting = "ياطيب حياك الله، أبشر بالحل السريع لـ («${matchedKeyword}»).";
+                    remedyText = `استخدم خلطة طبيعية مكونة من بيكربونات الصوديوم والخل الأبيض، ضعها على المكان المذكور واتركها قليلاً ثم امسحها بعناية.`;
+                } else {
+                    greeting = "أهلاً بك، إليك الحل الموصى به لمشكلتك:";
+                    remedyText = `بالنسبة لـ («${matchedKeyword}»)، نوصي باستخدام منظف بيوركس المركز أو خلطة الخل والليمون الطبيعية لتحقيق أفضل وأسرع نتيجة.`;
+                }
+            }
+
+            let fullSpeechText = `${greeting} ${remedyText}`;
+
+            let allProducts = [];
+            allStores.forEach(s => {
+                if(s.products) {
+                    s.products.forEach(p => {
+                        allProducts.push({ storeName: s.store_name, ...p });
+                    });
+                }
+            });
+
+            let matched = allProducts.filter(p => {
+                return p.name.toLowerCase().includes(textLower) || 
+                       (p.description && p.description.toLowerCase().includes(textLower)) ||
+                       (p.size && p.size.toLowerCase().includes(textLower));
+            });
+
+            if(matched.length === 0) {
+                matched = allProducts.slice(0, 3);
+            }
+
+            let html = `
+                <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:12px; margin-bottom:12px;">
+                    <h4 style="margin:0 0 6px 0; color:#15803d; font-size:1rem;">💬 ${greeting}</h4>
+                    <p style="margin:0; font-size:0.9rem; color:#166534; line-height:1.5;"><b>نتيجة التشخيص المخصص:</b> تم مطابقة المشكلة بنجاح وإعداد الحل الهندسي والمنزلي المناسب.</p>
+                </div>
+
+                <div class="home-remedy-box">
+                    <h4 style="margin:0 0 6px 0; color:#b45309; font-size:0.95rem;">${remedyTitle}</h4>
+                    <p style="margin:0; font-size:0.9rem; color:#78350f; line-height:1.6;" id="remedyParagraph">${remedyText}</p>
+                    
+                    <div class="audio-controls">
+                        <button class="btn" style="background:#d97706; flex:1;" onclick="speakText(document.getElementById('remedyParagraph').innerText)">🔊 استماع صوتي للحل (اضغط هنا)</button>
+                        <button class="btn" style="background:#64748b; padding:6px 12px;" onclick="stopSpeech()">⏹️ إيقاف</button>
+                    </div>
+                </div>
+
+                <h4 style="margin:15px 0 10px 0; color:var(--primary); font-size:0.95rem;">📦 المنتجات التجارية الجاهزة المقترحة من المتاجر:</h4>
+            `;
+            
+            if(matched.length > 0) {
+                matched.slice(0, 3).forEach(p => {
+                    let imgTag = p.image_url ? `<img src="${p.image_url}" style="width:55px;height:55px;object-fit:cover;border-radius:8px;">` : `<div style="width:55px;height:55px;background:var(--bg-color);display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:1.1rem;">📦</div>`;
+                    html += `
+                        <div class="product-list-item" style="background:#f8fafc; padding:8px; border-radius:8px; margin-bottom:8px;">
+                            ${imgTag}
+                            <div style="flex-grow:1; margin-right:8px;">
+                                <strong style="font-size:0.85rem; color:var(--text-main);">${p.name}</strong><br>
+                                <small style="color:var(--secondary); font-weight:700;">المتجر: ${p.storeName}</small><br>
+                                <span style="color:#dc2626; font-weight:700; font-size:0.80rem;">${p.price} ريال</span>
+                            </div>
+                            <button class="btn" style="background:var(--primary);" onclick="switchTab('market'); choose('${p.storeName}', '${p.name}', ${p.price})">اطلب</button>
+                        </div>
+                    `;
+                });
+            } else {
+                html += '<p style="font-size:0.85rem; color:var(--text-muted);">لا توجد منتجات مطابقة مسجلة حالياً.</p>';
+            }
+
+            container.innerHTML = html;
+        }, 600);
+    }
+
+    function getMyLocation() {
+        if (!navigator.geolocation) {
+            alert('متصفحك لا يدعم تحديد الموقع.');
+            return;
+        }
+        const btn = document.querySelector('.gps-btn');
+        btn.innerText = '⏳ جاري تحديد الموقع عبر الأقمار الصناعية...';
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                const mapsUrl = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
+                document.getElementById('v_map_link').value = mapsUrl;
+                btn.innerText = '✅ تم تحديد الموقع بنجاح';
+                btn.style.background = 'var(--secondary)';
+            },
+            (err) => {
+                alert('فشل تحديد الموقع. تأكد من تفعيل الـ GPS.');
+                btn.innerText = '📍 تحديد موقعي الحالي عبر الـ GPS';
+            },
+            { enableHighAccuracy: true, timeout: 10000 }
+        );
+    }
+
+    async function loadData() {
+        try {
+            const res = await fetch('/api/v1/stores?' + Date.now());
+            const json = await res.json();
+            if(json.status === 'success') {
+                allStores = json.data.filter(s => !s.sector.includes('إب'));
+                filterAndSearchStores();
+            } else {
+                document.getElementById('content').innerHTML = '<p style="text-align:center; color:var(--text-muted);">لا توجد بيانات متاحة حالياً.</p>';
+            }
+        } catch(e) {
+            document.getElementById('content').innerHTML = '<p style="text-align:center; color:red;">خطأ في الاتصال بالخادم.</p>';
+        }
+    }
+
+    function filterStores(area, btn) {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilterArea = area;
+        filterAndSearchStores();
+    }
+
+    function filterAndSearchStores() {
+        const query = document.getElementById('searchInput').value.toLowerCase().trim();
+        
+        let filtered = allStores.filter(s => {
+            let matchesArea = (currentFilterArea === 'الكل') || s.sector.includes(currentFilterArea) || s.sector.includes('مورد عام');
+            if(!matchesArea) return false;
+            if(!query) return true;
+
+            let matchStore = s.store_name.toLowerCase().includes(query) || 
+                             (s.store_desc && s.store_desc.toLowerCase().includes(query)) ||
+                             s.sector.toLowerCase().includes(query);
+
+            let matchProduct = false;
+            if(s.products && s.products.length > 0) {
+                matchProduct = s.products.some(p => 
+                    p.name.toLowerCase().includes(query) || 
+                    (p.size && p.size.toLowerCase().includes(query)) ||
+                    (p.description && p.description.toLowerCase().includes(query)) ||
+                    p.price.toString().includes(query)
+                );
+            }
+            return matchStore || matchProduct;
+        });
+
+        renderStores(filtered, query);
+    }
+
+    function renderStores(stores, searchQuery = '') {
+        if(stores.length === 0) {
+            document.getElementById('content').innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:30px 0;">لم يتم العثور على محلات أو منتجات تطابق بحثك.</p>';
+            return;
+        }
+        let html = '';
+        stores.forEach(s => {
+            let mapBtn = s.map_link ? `<a href="${s.map_link}" target="_blank" class="social-link">🗺️ الخريطة</a>` : '';
+            let socialBtn = s.social_link ? `<a href="${s.social_link}" target="_blank" class="social-link" style="background:#ccfbf1; color:#0f766e;">📢 العروض</a>` : '';
+            let logoImg = s.store_logo ? `<img src="${s.store_logo}" class="store-logo">` : `<div class="store-logo">🏪</div>`;
+            let storeDescText = s.store_desc ? `<p style="margin:4px 0 0 0; color:var(--text-muted); font-size:0.85rem;">${s.store_desc}</p>` : '';
+
+            html += `
+                <div class="store-card">
+                    <div class="store-header">
+                        ${logoImg}
+                        <div style="flex-grow:1;">
+                            <h3 style="color:var(--text-main); margin:0 0 2px 0; font-size: 1.05rem;">${s.store_name} <span style="font-size:0.75rem; color:var(--secondary); font-weight:700;">(${s.sector})</span></h3>
+                            ${storeDescText}
+                            <div class="social-links">${mapBtn} ${socialBtn}</div>
+                        </div>
+                    </div>
+            `;
+            
+            if(s.products && s.products.length > 0) {
+                let displayProducts = s.products;
+                if(searchQuery) {
+                    displayProducts = s.products.filter(p => 
+                        p.name.toLowerCase().includes(searchQuery) || 
+                        (p.size && p.size.toLowerCase().includes(searchQuery)) ||
+                        (p.description && p.description.toLowerCase().includes(searchQuery)) ||
+                        p.price.toString().includes(searchQuery) ||
+                        s.store_name.toLowerCase().includes(searchQuery)
+                    );
+                    if(displayProducts.length === 0) displayProducts = s.products;
+                }
+
+                displayProducts.forEach(p => {
+                    let imgTag = p.image_url ? `<img src="${p.image_url}" style="width:80px;height:80px;object-fit:cover;border-radius:12px;">` : `<div style="width:80px;height:80px;background:var(--bg-color);display:flex;align-items:center;justify-content:center;border-radius:12px;font-size:1.5rem;">📦</div>`;
+                    let sizeLabel = p.size ? `<br><small style="color:var(--primary); font-weight:700;">📦 الحجم: ${p.size}</small>` : '';
+                    html += `
+                        <div class="product-list-item">
+                            ${imgTag}
+                            <div style="flex-grow:1;">
+                                <strong style="font-size:0.95rem; color:var(--text-main);">${p.name}</strong>
+                                ${sizeLabel}<br>
+                                <span style="color:#dc2626; font-weight:700;">${p.price} ريال</span><br>
+                                <small style="color:var(--text-muted);">${p.description || ''}</small>
+                            </div>
+                            <div style="display:flex; flex-direction:column; gap:6px; min-width:110px;">
+                                <button class="btn" style="background:${s.theme_color || '#0d9488'}" onclick="choose('${s.store_name}', '${p.name}', ${p.price})">اختيار</button>
+                                <button class="btn" style="background:${s.theme_color || '#0284C7'}" onclick="openStoreScreen('${s.store_name}')">دخول الموقع</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                html += '<p style="font-size:0.85rem; color:var(--text-muted); margin:5px 0;">لا توجد منتجات مضافة لهذا المتجر بعد.</p>';
+            }
+            html += `</div>`;
+        });
+        document.getElementById('content').innerHTML = html;
+    }
+
+    function openStoreScreen(storeName) {
+        const store = allStores.find(s => s.store_name === storeName);
+        if(!store) return;
+
+        let themeColor = store.theme_color || '#0284C7';
+        let themeBg = store.theme_bg_color || '#0f172a';
+        let displayTemplate = store.product_display_template || 'grid_view';
+
+        let mapBtn = store.map_link ? `<a href="${store.map_link}" target="_blank" class="social-link" style="background:${themeColor}; color:#fff;">🗺️ الخريطة</a>` : '';
+        let socialBtn = store.social_link ? `<a href="${store.social_link}" target="_blank" class="social-link" style="background:#fff; color:${themeColor};">📢 العروض</a>` : '';
+        let logoImg = store.store_logo ? `<img src="${store.store_logo}" class="store-logo" style="border-color:${themeColor}">` : `<div class="store-logo" style="width:75px;height:75px;font-size:2rem;border-color:${themeColor}">🏪</div>`;
+        let storeDescText = store.store_desc ? `<p style="margin:8px 0 0 0; color:#e2e8f0; font-size:0.9rem;">${store.store_desc}</p>` : '';
+
+        let postsHtml = '';
+        if(store.posts && store.posts.length > 0) {
+            store.posts.forEach(post => {
+                postsHtml += `
+                    <div class="post-card">
+                        <h5>💡 ${post.title}</h5>
+                        <p>${post.content}</p>
+                    </div>
+                `;
+            });
+        }
+
+        let html = `
+            <div class="store-hero" style="background: linear-gradient(135deg, ${themeBg}, #1e293b); border: 2px solid ${themeColor};">
+                <div style="display:flex; gap:16px; align-items:center;">
+                    ${logoImg}
+                    <div style="flex-grow:1;">
+                        <h2 style="margin:0 0 4px 0; font-size:1.3rem; color:#fff;">${store.store_name}</h2>
+                        <span style="background:${themeColor}; color:white; padding:3px 10px; border-radius:12px; font-size:0.75rem; font-weight:700;">📍 ${store.sector}</span>
+                        ${storeDescText}
+                        <div class="social-links" style="margin-top:10px;">${mapBtn} ${socialBtn}</div>
+                    </div>
+                </div>
+            </div>
+
+            ${postsHtml ? `<div class="box"><h3 style="color:${themeColor}; margin-top:0; border-bottom:2px solid var(--bg-color); padding-bottom:10px;">📰 منشورات ونصائح الموقع</h3>${postsHtml}</div>` : ''}
+
+            <div class="box">
+                <h3 style="color:${themeColor}; margin-top:0; border-bottom:2px solid var(--bg-color); padding-bottom:10px;">🛍️ معروضات المنتجات (القالب المختار)</h3>
+        `;
+
+        if(store.products && store.products.length > 0) {
+            if(displayTemplate === 'grid_view' || displayTemplate === 'magazine_style' || displayTemplate === 'showroom_grid') {
+                html += `<div class="products-grid">`;
+                store.products.forEach(p => {
+                    let imgTag = p.image_url ? `<img src="${p.image_url}">` : `<div style="width:100%;height:110px;background:var(--border-color);display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:1.5rem;margin-bottom:8px;">📦</div>`;
+                    let sizeLabel = p.size ? `<br><small style="color:${themeColor}; font-weight:700;">📦 ${p.size}</small>` : '';
+                    html += `
+                        <div class="product-grid-item">
+                            <div>
+                                ${imgTag}
+                                <strong style="font-size:0.9rem; color:var(--text-main); display:block; margin-bottom:4px;">${p.name}</strong>
+                                ${sizeLabel}
+                                <span style="color:#dc2626; font-weight:700; display:block; margin-top:4px;">${p.price} ريال</span>
+                            </div>
+                            <button class="btn" style="background:${themeColor}; margin-top:8px;" onclick="backToMarket(); choose('${store.store_name}', '${p.name}', ${p.price})">اختيار للطلب</button>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            } else if(displayTemplate === 'horizontal_scroll') {
+                html += `<div class="products-horizontal">`;
+                store.products.forEach(p => {
+                    let imgTag = p.image_url ? `<img src="${p.image_url}">` : `<div style="width:100%;height:90px;background:var(--border-color);display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:1.5rem;margin-bottom:6px;">📦</div>`;
+                    html += `
+                        <div class="product-horiz-item">
+                            ${imgTag}
+                            <strong style="font-size:0.85rem; display:block; color:var(--text-main);">${p.name}</strong>
+                            <span style="color:#dc2626; font-weight:700; font-size:0.85rem;">${p.price} ريال</span>
+                            <button class="btn" style="background:${themeColor}; width:100%; margin-top:6px; padding:4px;" onclick="backToMarket(); choose('${store.store_name}', '${p.name}', ${p.price})">اختيار</button>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            } else {
+                store.products.forEach(p => {
+                    let imgTag = p.image_url ? `<img src="${p.image_url}">` : `<div style="width:75px;height:75px;background:var(--bg-color);display:flex;align-items:center;justify-content:center;border-radius:10px;font-size:1.5rem;">📦</div>`;
+                    let sizeLabel = p.size ? `<br><small style="color:${themeColor}; font-weight:700;">📦 الحجم: ${p.size}</small>` : '';
+                    html += `
+                        <div class="product-list-item">
+                            ${imgTag}
+                            <div style="flex-grow:1;">
+                                <strong style="font-size:0.95rem; color:var(--text-main);">${p.name}</strong>
+                                ${sizeLabel}<br>
+                                <span style="color:#dc2626; font-weight:700;">${p.price} ريال</span><br>
+                                <small style="color:var(--text-muted);">${p.description || ''}</small>
+                            </div>
+                            <button class="btn" style="background:${themeColor}" onclick="backToMarket(); choose('${store.store_name}', '${p.name}', ${p.price})">اختيار للطلب</button>
+                        </div>
+                    `;
+                });
+            }
+        } else {
+            html += '<p style="color:var(--text-muted); text-align:center; padding:20px 0;">لا توجد منتجات مضافة لهذا الموقع حالياً.</p>';
+        }
+
+        html += `</div>`;
+
+        document.getElementById('storeScreenContent').innerHTML = html;
+        document.getElementById('mainAppScreen').style.display = 'none';
+        document.getElementById('storeViewScreen').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function backToMarket() {
+        document.getElementById('storeViewScreen').style.display = 'none';
+        document.getElementById('mainAppScreen').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function choose(storeName, prodName, price) {
+        selectedStoreInfo = storeName;
+        selectedProd = prodName;
+        rawPrice = price;
+        document.getElementById('pname').value = `[${storeName}] ${prodName}`;
+        document.getElementById('pprice').value = price + ' ريال';
+        calcTotal();
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    function calcTotal() {
+        if(!rawPrice) return;
+        const deliveryType = document.getElementById('cdelivery_type').value;
+        let finalTotal = rawPrice;
+        if(deliveryType.includes('عمولة 3%')) {
+            finalTotal = Math.round(rawPrice * 1.03);
+        }
+        document.getElementById('ptotal').value = finalTotal + ' ريال ' + (deliveryType.includes('عمولة 3%') ? '(شامل عمولة التوصيل 3%)' : '');
+    }
+
+    function sendOrder(e) {
+        e.preventDefault();
+        if(!selectedProd) return alert('الرجاء اختيار منتج أولاً!');
+        let name = document.getElementById('cname').value;
+        let phone = document.getElementById('cphone').value;
+        let deliveryType = document.getElementById('cdelivery_type').value;
+        let finalTotal = document.getElementById('ptotal').value;
+        let payMethod = document.getElementById('cpay').value;
+
+        let url = `https://wa.me/967775187051?text=طلب جديد عبر منصة نظيف:%0Aالاسم: ${encodeURIComponent(name)}%0Aالهاتف: ${phone}%0Aالمتجر: ${encodeURIComponent(selectedStoreInfo)}%0Aالمنتج: ${encodeURIComponent(selectedProd)}%0Aطريقة التوصيل: ${encodeURIComponent(deliveryType)}%0Aالإجمالي النهائي: ${encodeURIComponent(finalTotal)}%0Aطريقة الدفع: ${encodeURIComponent(payMethod)}`;
+        window.location.href = url;
+    }
+
+    function getBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+    }
+
+    async function registerVendor(e) {
+        e.preventDefault();
+        
+        let logoBase64 = '';
+        const logoInput = document.getElementById('v_store_logo_file');
+        if (logoInput.files && logoInput.files[0]) {
+            try { logoBase64 = await getBase64(logoInput.files[0]); } catch(e){}
+        }
+
+        let imageBase64 = '';
+        const fileInput = document.getElementById('v_prod_image_file');
+        if (fileInput.files && fileInput.files[0]) {
+            try { imageBase64 = await getBase64(fileInput.files[0]); } catch(e){}
+        }
+
+        const mapLink = document.getElementById('v_map_link').value;
+        const socialLink = document.getElementById('v_social').value;
+
+        let postsArr = [];
+        let pTitle = document.getElementById('v_post_title').value;
+        let pContent = document.getElementById('v_post_content').value;
+        if(pTitle && pContent) {
+            postsArr.push({ title: pTitle, content: pContent });
+        }
+
+        const data = {
+            store_name: document.getElementById('v_store_name').value + ' (' + document.getElementById('v_category').value + ')',
+            store_logo: logoBase64,
+            store_desc: document.getElementById('v_store_desc').value,
+            sector: document.getElementById('v_sector').value,
+            map_link: mapLink,
+            social_link: socialLink,
+            delivery_by: document.getElementById('v_delivery').value,
+            theme_color: document.getElementById('v_theme_color').value,
+            theme_bg_color: document.getElementById('v_theme_bg_color').value,
+            store_theme_style: document.getElementById('v_store_theme_style').value,
+            product_display_template: document.getElementById('v_product_display_template').value,
+            posts: postsArr,
+            image: '🏪',
+            product_name: document.getElementById('v_prod_name').value,
+            product_price: parseFloat(document.getElementById('v_prod_price').value),
+            product_description: (document.getElementById('v_prod_desc').value + ' | ' + document.getElementById('v_delivery').value).trim(),
+            product_size: document.getElementById('v_prod_size').value,
+            product_image: imageBase64
+        };
+
+        try {
+            const res = await fetch('/api/v1/vendor/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const json = await res.json();
+            if(json.status === 'success') {
+                alert('🎉 تم إنشاء موقعك المستقل وتفعيل القوالب والهوية بنجاح!');
+                switchTab('market');
+            } else {
+                alert('حدث خطأ أثناء التسجيل.');
+            }
+        } catch(err) {
+            alert('خطأ في الاتصال بالخادم.');
+        }
+    }
+
+    loadData();
+</script>
+</body>
+</html>

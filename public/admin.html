@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - رفع الصور الحقيقية</title>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; background-color: #f4f6f8; margin: 0; padding: 20px; direction: rtl; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .card { background: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        h2, h3 { color: #2c3e50; margin-bottom: 15px; }
+
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
+        .tab-btn { background: none; border: none; font-size: 1.1rem; font-weight: bold; cursor: pointer; color: #7f8c8d; padding: 8px 16px; border-radius: 6px; }
+        .tab-btn.active { background: #3498db; color: white; }
+
+        .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+        .filter-btn { background: #e0e6ed; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; color: #34495e; }
+        .filter-btn.active { background: #16a085; color: white; }
+
+        .order-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; }
+        .select-status { padding: 6px 10px; border-radius: 6px; border: 1px solid #ccc; font-weight: bold; }
+        .items-list { background: #f9f9f9; padding: 10px; border-radius: 8px; margin-top: 10px; }
+
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        .btn { background: #27ae60; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; width: 100%; cursor: pointer; font-size: 1rem; margin-top: 5px; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>📊 لوحة تحكم أمانة العاصمة (صنعاء)</h2>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('orders-tab', this)">📦 إدارة الطلبات</button>
+        <button class="tab-btn" onclick="switchTab('stores-tab', this)">🏪 إضافة محلات ومنتجات</button>
+    </div>
+
+    <!-- تبويب الطلبات -->
+    <div id="orders-tab" class="tab-content active">
+        <div class="filter-bar">
+            <button class="filter-btn active" onclick="filterOrders('الكل', this)">الكل (0)</button>
+            <button class="filter-btn" onclick="filterOrders('قيد الانتظار', this)">قيد الانتظار (0)</button>
+            <button class="filter-btn" onclick="filterOrders('قيد التوصيل', this)">قيد التوصيل (0)</button>
+            <button class="filter-btn" onclick="filterOrders('مكتمل', this)">مكتمل (0)</button>
+            <button class="filter-btn" onclick="filterOrders('ملغي', this)">ملغي (0)</button>
+        </div>
+        <div id="stats-summary" style="font-size:0.9em; color:#7f8c8d; margin-bottom:10px;">جاري التحميل...</div>
+        <div id="orders-container">جاري تحميل الطلبات...</div>
+    </div>
+
+    <!-- تبويب رفع المنتجات مع صورة حقيقية -->
+    <div id="stores-tab" class="tab-content">
+        <div class="card">
+            <h3>➕ إضافة فرع/محل جديد</h3>
+            <div class="form-group">
+                <label>اسم المحل/الفرع:</label>
+                <input type="text" id="new_store_name" placeholder="سوبر كلين بلس - فرع السبعين">
+            </div>
+            <div class="form-group">
+                <label>اختر المنطقة:</label>
+                <select id="new_store_sector">
+                    <option value="صنعاء - ميدان التحرير">ميدان التحرير</option>
+                    <option value="صنعاء - منطقة السبعين" selected>منطقة السبعين</option>
+                    <option value="صنعاء - بيت بوس">بيت بوس</option>
+                </select>
+            </div>
+            <button class="btn" onclick="addStore()">حفظ الفرع الجديد 🏢</button>
+        </div>
+
+        <div class="card" style="margin-top: 20px;">
+            <h3>📸 إضافة منتج مع رفع صورة حقيقية</h3>
+            <form id="productForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>اختر المحل/الفرع:</label>
+                    <select id="select_store_for_product" name="store_id"></select>
+                </div>
+                <div class="form-group">
+                    <label>اسم المنتج:</label>
+                    <input type="text" name="name" id="new_product_name" placeholder="مطهر ومعقم بيوركس 20 لتر" required>
+                </div>
+                <div class="form-group">
+                    <label>الحجم / العبوة:</label>
+                    <input type="text" name="size" placeholder="مثال: 20 لتر">
+                </div>
+                <div class="form-group">
+                    <label>القسم (تجزئة / جملة):</label>
+                    <select name="category">
+                        <option value="تجزئة" selected>تجزئة</option>
+                        <option value="جملة">جملة</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>السعر (ريال يمني):</label>
+                    <input type="number" name="price" placeholder="11000" required>
+                </div>
+                <div class="form-group">
+                    <label>📷 اختر الصورة الحقيقية للمنتج (من الاستوديو/الكاميرا):</label>
+                    <input type="file" name="image_file" accept="image/*" required style="padding: 5px;">
+                </div>
+                <div class="form-group">
+                    <label>وصف المنتج:</label>
+                    <textarea name="description" rows="2" placeholder="معقم ومطهر شديد الفعالية للقضاء على الجراثيم والبكتيريا..."></textarea>
+                </div>
+                <button type="button" class="btn" style="background:#2980b9;" onclick="uploadProductWithImage()">رفع المنتج والصورة الحقيقية 🚀</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    let allOrders = [];
+    let currentFilter = 'الكل';
+    let storesList = [];
+
+    function switchTab(tabId, btn) {
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        btn.classList.add('active');
+
+        if(tabId === 'stores-tab') loadStoresDropdown();
+    }
+
+    async function fetchAdminOrders() {
+        try {
+            const res = await fetch('/api/v1/orders');
+            const result = await res.json();
+            if (result.status === 'success') {
+                allOrders = result.data;
+                updateFilterCounters();
+                renderOrders();
+            }
+        } catch (err) {
+            document.getElementById('orders-container').innerHTML = '<p style="color:red;">خطأ في تحميل الطلبات</p>';
+        }
+    }
+
+    function updateFilterCounters() {
+        const counts = {
+            'الكل': allOrders.length,
+            'قيد الانتظار': allOrders.filter(o => o.status === 'قيد الانتظار').length,
+            'قيد التوصيل': allOrders.filter(o => o.status === 'قيد التوصيل').length,
+            'مكتمل': allOrders.filter(o => o.status === 'مكتمل').length,
+            'ملغي': allOrders.filter(o => o.status === 'ملغي').length
+        };
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            const statusKey = btn.innerText.split(' (')[0];
+            if (counts[statusKey] !== undefined) btn.innerText = `${statusKey} (${counts[statusKey]})`;
+        });
+    }
+
+    function filterOrders(status, btnElement) {
+        currentFilter = status;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        if (btnElement) btnElement.classList.add('active');
+        renderOrders();
+    }
+
+    function renderOrders() {
+        const container = document.getElementById('orders-container');
+        const statsSummary = document.getElementById('stats-summary');
+        let filtered = currentFilter === 'الكل' ? allOrders : allOrders.filter(o => o.status === currentFilter);
+        statsSummary.innerText = `عرض ${filtered.length} من إجمالي ${allOrders.length} طلب`;
+
+        if (filtered.length === 0) {
+            container.innerHTML = '<div class="card"><p style="text-align:center; color:#7f8c8d;">لا توجد طلبات في هذه الفئة.</p></div>';
+            return;
+        }
+
+        container.innerHTML = filtered.map(order => `
+            <div class="card">
+                <div class="order-header">
+                    <div><strong>طلب #${order.id}</strong> - ${order.customer_name} (${order.customer_phone})</div>
+                    <div>
+                        <select class="select-status" onchange="updateStatus(${order.id}, this.value)">
+                            <option value="قيد الانتظار" ${order.status === 'قيد الانتظار' ? 'selected' : ''}>قيد الانتظار</option>
+                            <option value="قيد التوصيل" ${order.status === 'قيد التوصيل' ? 'selected' : ''}>قيد التوصيل</option>
+                            <option value="مكتمل" ${order.status === 'مكتمل' ? 'selected' : ''}>مكتمل</option>
+                            <option value="ملغي" ${order.status === 'ملغي' ? 'selected' : ''}>ملغي</option>
+                        </select>
+                    </div>
+                </div>
+                <p>📍 <strong>العنوان:</strong> ${order.address}</p>
+                <p>💰 <strong>المبلغ الإجمالي:</strong> ${order.total_amount} ريال</p>
+                <div class="items-list">
+                    <strong>المنتجات:</strong>
+                    <ul>${order.items.map(i => `<li>${i.product_name} x ${i.quantity} (${i.price} ريال)</li>`).join('')}</ul>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    async function updateStatus(orderId, newStatus) {
+        try {
+            const res = await fetch(`/api/v1/orders/${orderId}/status`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: newStatus })
+            });
+            const data = await res.json();
+            if (data.status === 'success') {
+                const order = allOrders.find(o => o.id === orderId);
+                if (order) order.status = newStatus;
+                updateFilterCounters();
+                renderOrders();
+            }
+        } catch (err) {
+            alert('حدث خطأ أثناء تحديث الحالة');
+        }
+    }
+
+    async function loadStoresDropdown() {
+        const select = document.getElementById('select_store_for_product');
+        try {
+            const res = await fetch('/api/v1/stores');
+            const result = await res.json();
+            if (result.status === 'success') {
+                storesList = result.data;
+                select.innerHTML = storesList.map(s => `<option value="${s.store_id}">${s.store_name} (${s.sector})</option>`).join('');
+            }
+        } catch (err) {
+            select.innerHTML = '<option>خطأ في جلب المحلات</option>';
+        }
+    }
+
+    async function addStore() {
+        const name = document.getElementById('new_store_name').value;
+        const sector = document.getElementById('new_store_sector').value;
+        if (!name || !sector) return alert('يرجى ملء اسم المحل والمنطقة');
+
+        try {
+            const res = await fetch('/api/v1/stores', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, sector, delivery_by: 'توصيل مباشر', image: '🧼' })
+            });
+            const data = await res.json();
+            if (data.status === 'success') {
+                alert('✅ تم إضافة الفرع بنجاح!');
+                document.getElementById('new_store_name').value = '';
+                loadStoresDropdown();
+            }
+        } catch (err) { alert('حدث خطأ أثناء إضافة المحل'); }
+    }
+
+    async function uploadProductWithImage() {
+        const form = document.getElementById('productForm');
+        const formData = new FormData(form);
+
+        try {
+            const res = await fetch('/api/v1/products', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await res.json();
+            if (data.status === 'success') {
+                alert('✅ تم رفع المنتج والصورة الحقيقية بنجاح!');
+                form.reset();
+            } else {
+                alert('❌ ' + data.message);
+            }
+        } catch (err) {
+            alert('حدث خطأ أثناء رفع المنتج والصورة');
+        }
+    }
+
+    fetchAdminOrders();
+</script>
+
+</body>
+</html>
