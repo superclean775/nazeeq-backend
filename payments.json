@@ -1,0 +1,57 @@
+[
+  {
+    "id": "jeeb",
+    "name": "جيب",
+    "type": "محفظة",
+    "account_name": "حسان محمد صالح جلهم",
+    "number": "775187051",
+    "note": "",
+    "active": true
+  },
+  {
+    "id": "jawwali",
+    "name": "جوالي",
+    "type": "محفظة",
+    "account_name": "حسان محمد صالح جلهم",
+    "number": "775187051",
+    "note": "",
+    "active": true
+  },
+  {
+    "id": "onecash",
+    "name": "ون كاش",
+    "type": "محفظة",
+    "account_name": "حسان محمد صالح جلهم",
+    "number": "775187051",
+    "note": "",
+    "active": true
+  },
+  {
+    "id": "hasib",
+    "name": "حاسب",
+    "type": "محفظة",
+    "account_name": "حسان محمد صالح جلهم",
+    "number": "775187051",
+    "note": "",
+    "active": true
+  },
+  {
+    "id": "sabaacash",
+    "name": "سبأ كاش",
+    "type": "محفظة",
+    "account_name": "حسان محمد صالح جلهم",
+    "number": "775187051",
+    "note": "",
+    "active": true
+  },
+  {
+    "id": "bank",
+    "name": "تحويل بنكي",
+    "type": "بنك",
+    "account_name": "",
+    "number": "",
+    "bank_name": "",
+    "note": "",
+    "active": true
+  }
+]
